@@ -19,18 +19,23 @@
 %   NOAA-19
 
 % display contents of single file
-poesfile = "data/poes_n19_20221018_proc.nc";
+n18_file = "data/poes_n18_20221018_proc.nc";
+n19_file = "data/poes_n19_20221018_proc.nc";
 %ncdisp(poesfile);
 
 % time
-time_ms = cast(ncread(poesfile, "time"), "double"); % milliseconds since January 1, 1970 00:00 UTC
-time_dn = time_ms/(1000*60*60*24) + datenum(1970,01,01);
-time_dt = datetime(time_dn, "ConvertFrom", "datenum");
+n18_time_ms = cast(ncread(n18_file, "time"), "double"); % milliseconds since January 1, 1970 00:00 UTC
+n18_time_dn = n18_time_ms/(1000*60*60*24) + datenum(1970,01,01);
+n18_time_dt = datetime(n18_time_dn, "ConvertFrom", "datenum");
+
+n19_time_ms = cast(ncread(n19_file, "time"), "double"); % milliseconds since January 1, 1970 00:00 UTC
+n19_time_dn = n19_time_ms/(1000*60*60*24) + datenum(1970,01,01);
+n19_time_dt = datetime(n19_time_dn, "ConvertFrom", "datenum");
 
 % latitude, longitude, altitude
-lat = cast(ncread(poesfile, "lat"), "double");      % degrees
-lon = cast(ncread(poesfile, "lon"), "double");      % degrees    
-alt = cast(ncread(poesfile, "alt"), "double");      % km
+n19_lat = cast(ncread(n19_file, "lat"), "double");      % degrees
+n19_lon = cast(ncread(n19_file, "lon"), "double");      % degrees    
+n19_alt = cast(ncread(n19_file, "alt"), "double");      % km
 
 % magnetic field/magnetic coordinates
 % POES data come with many different magnetic field components and
@@ -38,8 +43,8 @@ alt = cast(ncread(poesfile, "alt"), "double");      % km
 % field components at both the satellite and satellite foot point, and the
 % familiar L-shell and MLT.  For now, let's only import the geodetic
 % coordinates of the footpoint.
-foot_lat = cast(ncread(poesfile, "geod_lat_foot"), "double");
-foot_lon = cast(ncread(poesfile, "geod_lon_foot"), "double");
+n19_foot_lat = cast(ncread(n19_file, "geod_lat_foot"), "double");
+n19_foot_lon = cast(ncread(n19_file, "geod_lon_foot"), "double");
 
 % electron channels
 % MEPED has two electron telescopes, oriented approximately 0 degrees and
@@ -60,13 +65,13 @@ foot_lon = cast(ncread(poesfile, "geod_lon_foot"), "double");
 
 % all electron fluxes have units of (counts cm^-2 sr^-1 s^-1)
 
-tel0_flux_e2 = cast(ncread(poesfile, "mep_ele_tel0_flux_e2"), "double");
-tel0_flux_e3 = cast(ncread(poesfile, "mep_ele_tel0_flux_e3"), "double");
-tel0_flux_e4 = cast(ncread(poesfile, "mep_ele_tel0_flux_e4"), "double");
+n19_tel0_flux_e2 = cast(ncread(n19_file, "mep_ele_tel0_flux_e2"), "double");
+n19_tel0_flux_e3 = cast(ncread(n19_file, "mep_ele_tel0_flux_e3"), "double");
+n19_tel0_flux_e4 = cast(ncread(n19_file, "mep_ele_tel0_flux_e4"), "double");
 
-tel90_flux_e2 = cast(ncread(poesfile, "mep_ele_tel90_flux_e2"), "double");
-tel90_flux_e3 = cast(ncread(poesfile, "mep_ele_tel90_flux_e3"), "double");
-tel90_flux_e4 = cast(ncread(poesfile, "mep_ele_tel90_flux_e4"), "double");
+n19_tel90_flux_e2 = cast(ncread(n19_file, "mep_ele_tel90_flux_e2"), "double");
+n19_tel90_flux_e3 = cast(ncread(n19_file, "mep_ele_tel90_flux_e3"), "double");
+n19_tel90_flux_e4 = cast(ncread(n19_file, "mep_ele_tel90_flux_e4"), "double");
 
 
 %% plot electron flux on each channel as a function of time
@@ -79,10 +84,10 @@ colors = colors(2:end, :);
 tiledlayout(2,1,"TileSpacing","compact","Padding","compact");
 ax1 = nexttile;
 hold off
-semilogy(time_dt, tel0_flux_e2, '.');
+semilogy(n19_time_dt, n19_tel0_flux_e2, '.');
 hold on
-semilogy(time_dt, tel0_flux_e3, '.');
-semilogy(time_dt, tel0_flux_e4, '.');
+semilogy(n19_time_dt, n19_tel0_flux_e3, '.');
+semilogy(n19_time_dt, n19_tel0_flux_e4, '.');
 ylim([1E2 1E6]);
 colororder(ax1, colors);
 legend("E2", "E3", "E4");
@@ -90,10 +95,10 @@ title("MEPED 0\circ telescope");
 
 ax2 = nexttile;
 hold off
-semilogy(time_dt, tel90_flux_e2, '.');
+semilogy(n19_time_dt, n19_tel90_flux_e2, '.');
 hold on
-semilogy(time_dt, tel90_flux_e3, '.');
-semilogy(time_dt, tel90_flux_e4, '.');
+semilogy(n19_time_dt, n19_tel90_flux_e3, '.');
+semilogy(n19_time_dt, n19_tel90_flux_e4, '.');
 ylim([1E2 1E6]);
 colororder(ax2, colors);
 legend("E2", "E3", "E4");
@@ -109,8 +114,8 @@ hold off
 worldmap('World');
 geoshow(coastlat, coastlon, "Color", "black");
 hold on
-scatterm(lat, lon, 0.5, [0.5 0.5 0.5]);
-scatterm(lat, lon, 5, tel0_flux_e2);
+scatterm(n19_lat, n19_lon, 0.5, [0.5 0.5 0.5]);
+scatterm(n19_lat, n19_lon, 5, n19_tel0_flux_e2);
 % xlabel("Latitude");
 % ylabel("Longitude");
 t1 = title("MEPED 0\circ telescope E2 flux");
@@ -125,8 +130,8 @@ hold off
 worldmap('World');
 geoshow(coastlat, coastlon, "Color", "black");
 hold on
-scatterm(lat, lon, 0.5, [0.5 0.5 0.5]);
-scatterm(lat, lon, 5, tel90_flux_e2);
+scatterm(n19_lat, n19_lon, 0.5, [0.5 0.5 0.5]);
+scatterm(n19_lat, n19_lon, 5, n19_tel90_flux_e2);
 % xlabel("Latitude");
 % ylabel("Longitude");
 t2 = title("MEPED 90\circ telescope E2 flux");
@@ -140,3 +145,11 @@ cb.Label.String = "counts cm^{-2} sr^{-1} s^{-1}";
 cb.Label.FontSize = 15;
 cb.FontSize = 12;
 caxis([10 100000]);
+
+
+%% function definitions
+
+function outstruct = poesimport(filename, varargin)
+% import specified data from POES NetCDF files
+
+end
