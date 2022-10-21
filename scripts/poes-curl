@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 #
 # try downloading a POES file with curl
+# allow for varying satellite specifiers
 
 if [[ $# != 4 ]]
 then
