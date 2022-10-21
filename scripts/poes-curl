@@ -45,4 +45,4 @@ fi
 
 FILENAME="poes_"$POESFILE"_"$1$2$3"_proc.nc"
 
-echo curl -O $SITE/$1/$POESPATH/$FILENAME
+curl -O $SITE/$1/$POESPATH/$FILENAME
