@@ -2,6 +2,8 @@
 #
 # try downloading a POES file with curl
 # allow for varying satellite specifiers
+# TODO: disallow bad dates
+#       add older satellites for relevant date ranges
 
 if [[ $# != 4 ]]
 then
