@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+#
+# try downloading a POES file with curl
+
+if [[ $# != 4 ]]
+then
+	echo "USAGE: ./poes-curl yyyy mm dd sat"
+	echo "	specify date with 4-digit year, 2-digit month, and "
+	echo "	 2-digit day, and a satellite identifier."
+	echo "	possible satellite identifiers: n15, n18, n18, m01, m03, "
+	echo "	 noaa15, noaa18, noaa19, metop01, metop03."
+	echo "	saves fetched file in directory of invocation"
+	exit 1
+fi
+
+SITE="https://satdat.ngdc.noaa.gov/sem/poes/data/processed/ngdc/uncorrected/full"
+
+if [[ $4 == n15 || $4 == noaa15 ]]
+then
+	POESPATH="noaa15"
+	POESFILE="n15"
+elif [[ $4 == n18 || $4 == noaa18 ]]
+then
+	POESPATH="noaa18"
+	POESFILE="n18"
+elif [[ $4 == n19 || $4 == noaa19 ]]
+then
+	POESPATH="noaa19"
+	POESFILE="n19"
+elif [[ $4 == m01 || $4 == metop01 ]]
+then
+	POESPATH="metop01"
+	POESFILE="m01"
+elif [[ $4 == m03 || $4 == metop03 ]]
+then
+	POESPATH="metop03"
+	POESFILE="m03"
+else
+	echo "$4 is not a valid satellite ID (must be n15, n18, n19, m01, or m03)"
+	exit
+fi
+
+FILENAME="poes_"$POESFILE"_"$1$2$3"_proc.nc"
+
+echo curl -O $SITE/$1/$POESPATH/$FILENAME
