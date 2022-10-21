@@ -151,5 +151,26 @@ caxis([10 100000]);
 
 function outstruct = poesimport(filename, varargin)
 % import specified data from POES NetCDF files
+% inputs:                           type    example
+%   filename:   NetCDF filename     string  "poes_n18_20221018_proc.nc"
+%   varargin:   field names         string  "time", "mep_ele_tel0_flux_e2"
+%
+% outputs:
+%   outstruct:  struct of data from NetCDF file
+%
+% usage:
+% filename = ["poes_n18_20221018_proc.nc"; "poes_n19_20221018_proc.nc"; "poes_m01_20221018_proc.nc"];
+% fields = ["time"; "lat"; "lon"; "alt"; ...
+%   "mep_ele_tel0_flux_e2"; "mep_ele_tel0_flux_e3"; "mep_ele_tel0_flux_e4"; ...
+%   "mep_ele_tel90_flux_e2"; "mep_ele_tel90_flux_e3"; "mep_ele_tel90_flux_e4"];
+% 
+% poesdata = poesimport(filename, fields)
+
+% TODO: 
+%   1. consider changing filename inputs to spacecraft and yyyy mm dd,
+%   like in poes-curl script
+%   2. eventually we want to look at files quickly and automatically
+
+
 
 end
