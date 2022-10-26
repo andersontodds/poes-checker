@@ -23,9 +23,9 @@
 % n19_file = "data/poes_n19_20221018_proc.nc";
 % ncdisp(poesfile);
 
-year = 2022;
+year = 2019;
 month = 10;
-day = 19;
+day = 25;
 
 datafields = ["time"; "lat"; "lon"; "alt"; "geod_lat_foot"; "geod_lon_foot"; ...
     "L_IGRF"; "MLT"; ...
@@ -98,10 +98,10 @@ colors = colors(2:end, :);
 tiledlayout(2,1,"TileSpacing","compact","Padding","compact");
 ax1 = nexttile;
 hold off
-semilogy(datetime(n18.time,"ConvertFrom", "datenum"), n18.mep_ele_tel0_flux_e2, '.');
+semilogy(datetime(m03.time,"ConvertFrom", "datenum"), m03.mep_ele_tel0_flux_e2, '.');
 hold on
-semilogy(datetime(n18.time,"ConvertFrom", "datenum"), n18.mep_ele_tel0_flux_e3, '.');
-semilogy(datetime(n18.time,"ConvertFrom", "datenum"), n18.mep_ele_tel0_flux_e4, '.');
+semilogy(datetime(m03.time,"ConvertFrom", "datenum"), m03.mep_ele_tel0_flux_e3, '.');
+semilogy(datetime(m03.time,"ConvertFrom", "datenum"), m03.mep_ele_tel0_flux_e4, '.');
 ylim([1E2 1E6]);
 colororder(ax1, colors);
 legend("E2", "E3", "E4");
@@ -109,10 +109,10 @@ title("MEPED 0\circ telescope");
 
 ax2 = nexttile;
 hold off
-semilogy(datetime(n18.time,"ConvertFrom", "datenum"), n18.mep_ele_tel90_flux_e2, '.');
+semilogy(datetime(m03.time,"ConvertFrom", "datenum"), m03.mep_ele_tel90_flux_e2, '.');
 hold on
-semilogy(datetime(n18.time,"ConvertFrom", "datenum"), n18.mep_ele_tel90_flux_e3, '.');
-semilogy(datetime(n18.time,"ConvertFrom", "datenum"), n18.mep_ele_tel90_flux_e4, '.');
+semilogy(datetime(m03.time,"ConvertFrom", "datenum"), m03.mep_ele_tel90_flux_e3, '.');
+semilogy(datetime(m03.time,"ConvertFrom", "datenum"), m03.mep_ele_tel90_flux_e4, '.');
 ylim([1E2 1E6]);
 colororder(ax2, colors);
 legend("E2", "E3", "E4");
@@ -122,7 +122,7 @@ title("MEPED 90\circ telescope");
 load coastlines;
 
 figure(2)
-tiledlayout(2,2,"TileSpacing","compact","Padding","compact")
+tl = tiledlayout(3,2,"TileSpacing","tight","Padding","compact");
 ax1 = nexttile;
 hold off
 % worldmap('World');
@@ -143,15 +143,18 @@ scatterm(n15.lat, n15.lon, 5, n15.mep_ele_tel0_flux_e2);
 scatterm(n18.lat, n18.lon, 5, n18.mep_ele_tel0_flux_e2);
 % scatterm(n19.lat, n19.lon, 0.5, [0.5 0.5 0.5]); % ground track
 scatterm(n19.lat, n19.lon, 5, n19.mep_ele_tel0_flux_e2);
-geoshow(coastlat, coastlon, "Color", [1 0 0.65]);
+geoshow(coastlat, coastlon, "Color", [1 0.25 0.25]);
 % xlabel("Latitude");
-% ylabel("Longitude");
-t1 = title("MEPED 0\circ telescope E2 flux");
+y1 = ylabel("E2      ");
+y1.FontSize = 15;
+y1.FontWeight = "bold";
+y1.Rotation = 0;
+t1 = title("0\circ telescope");
 t1.FontSize = 15;
 tightmap
 
 set(ax1,'ColorScale','log');
-crameri('davos'); % requires "crameri" colormap toolbox
+crameri('devon'); % requires "crameri" colormap toolbox
 caxis([10 100000]);
 
 ax2 = nexttile;
@@ -174,15 +177,15 @@ scatterm(n15.lat, n15.lon, 5, n15.mep_ele_tel90_flux_e2);
 scatterm(n18.lat, n18.lon, 5, n18.mep_ele_tel90_flux_e2);
 % scatterm(n19.lat, n19.lon, 0.5, [0.5 0.5 0.5]); % ground track
 scatterm(n19.lat, n19.lon, 5, n19.mep_ele_tel90_flux_e2);
-geoshow(coastlat, coastlon, "Color", [1 0 0.65]);
+geoshow(coastlat, coastlon, "Color", [1 0.25 0.25]);
 % xlabel("Latitude");
 % ylabel("Longitude");
-t2 = title("MEPED 90\circ telescope E2 flux");
+t2 = title("90\circ telescope");
 t2.FontSize = 15;
 tightmap
 
 set(ax2,'ColorScale','log');
-crameri('davos'); % requires "crameri" colormap toolbox
+crameri('devon'); % requires "crameri" colormap toolbox
 caxis([10 100000]);
 
 ax3 = nexttile;
@@ -205,15 +208,18 @@ scatterm(n15.lat, n15.lon, 5, n15.mep_ele_tel0_flux_e3);
 scatterm(n18.lat, n18.lon, 5, n18.mep_ele_tel0_flux_e3);
 % scatterm(n19.lat, n19.lon, 0.5, [0.5 0.5 0.5]); % ground track
 scatterm(n19.lat, n19.lon, 5, n19.mep_ele_tel0_flux_e3);
-geoshow(coastlat, coastlon, "Color", [1 0 0.65]);
+geoshow(coastlat, coastlon, "Color", [1 0.25 0.25]);
 % xlabel("Latitude");
-% ylabel("Longitude");
-t3 = title("MEPED 0\circ telescope E3 flux");
-t3.FontSize = 15;
+y3 = ylabel("E3      ");
+y3.FontSize = 15;
+y3.FontWeight = "bold";
+y3.Rotation = 0;
+% t3 = title("MEPED 0\circ telescope E3 flux");
+% t3.FontSize = 15;
 tightmap
 
 set(ax3,'ColorScale','log');
-crameri('davos'); % requires "crameri" colormap toolbox
+crameri('devon'); % requires "crameri" colormap toolbox
 caxis([10 100000]);
 
 ax4 = nexttile;
@@ -236,79 +242,104 @@ scatterm(n15.lat, n15.lon, 5, n15.mep_ele_tel90_flux_e3);
 scatterm(n18.lat, n18.lon, 5, n18.mep_ele_tel90_flux_e3);
 % scatterm(n19.lat, n19.lon, 0.5, [0.5 0.5 0.5]); % ground track
 scatterm(n19.lat, n19.lon, 5, n19.mep_ele_tel90_flux_e3);
-geoshow(coastlat, coastlon, "Color", [1 0 0.65]);
+geoshow(coastlat, coastlon, "Color", [1 0.25 0.25]);
 % xlabel("Latitude");
 % ylabel("Longitude");
-t4 = title("MEPED 90\circ telescope E3 flux");
-t4.FontSize = 15;
+% t4 = title("MEPED 90\circ telescope E3 flux");
+% t4.FontSize = 15;
 tightmap
 
 set(ax4,'ColorScale','log');
-crameri('davos'); % requires "crameri" colormap toolbox
+crameri('devon'); % requires "crameri" colormap toolbox
 caxis([10 100000]);
 
-% ax5 = nexttile;
-% hold off
+ax5 = nexttile;
+hold off
 % worldmap('World');
-% geoshow(coastlat, coastlon, "Color", "black");
-% hold on
-% % scatterm(m01.lat, m01.lon, 0.5, [0.5 0.5 0.5]); % ground track
-% scatterm(m01.lat, m01.lon, 5, m01.mep_ele_tel0_flux_e4);
-% % scatterm(m03.lat, m03.lon, 0.5, [0.5 0.5 0.5]); % ground track
-% scatterm(m03.lat, m03.lon, 5, m03.mep_ele_tel0_flux_e4);
-% % scatterm(n15.lat, n15.lon, 0.5, [0.5 0.5 0.5]); % ground track
-% scatterm(n15.lat, n15.lon, 5, n15.mep_ele_tel0_flux_e4);
-% % scatterm(n18.lat, n18.lon, 0.5, [0.5 0.5 0.5]); % ground track
-% scatterm(n18.lat, n18.lon, 5, n18.mep_ele_tel0_flux_e4);
-% % scatterm(n19.lat, n19.lon, 0.5, [0.5 0.5 0.5]); % ground track
-% scatterm(n19.lat, n19.lon, 5, n19.mep_ele_tel0_flux_e4);
-% % xlabel("Latitude");
-% % ylabel("Longitude");
-% t1 = title("MEPED 0\circ telescope E4 flux");
-% t1.FontSize = 15;
-% 
-% set(ax5,'ColorScale','log');
-% crameri('davos'); % requires "crameri" colormap toolbox
-% caxis([10 100000]);
-% 
-% ax6 = nexttile;
-% hold off
+% setm(ax3, "MapProjection","pcarree");
+axesm("MapProjection","pcarree", "MapLatLimit",[-90 90], "MapLonLimit",[-180 180]);
+framem;
+gridm;
+% mlabel;
+% plabel;
+hold on
+% scatterm(m01.lat, m01.lon, 0.5, [0.5 0.5 0.5]); % ground track
+scatterm(m01.lat, m01.lon, 5, m01.mep_ele_tel0_flux_e4);
+% scatterm(m03.lat, m03.lon, 0.5, [0.5 0.5 0.5]); % ground track
+scatterm(m03.lat, m03.lon, 5, m03.mep_ele_tel0_flux_e4);
+% scatterm(n15.lat, n15.lon, 0.5, [0.5 0.5 0.5]); % ground track
+scatterm(n15.lat, n15.lon, 5, n15.mep_ele_tel0_flux_e4);
+% scatterm(n18.lat, n18.lon, 0.5, [0.5 0.5 0.5]); % ground track
+scatterm(n18.lat, n18.lon, 5, n18.mep_ele_tel0_flux_e4);
+% scatterm(n19.lat, n19.lon, 0.5, [0.5 0.5 0.5]); % ground track
+scatterm(n19.lat, n19.lon, 5, n19.mep_ele_tel0_flux_e4);
+geoshow(coastlat, coastlon, "Color", [1 0.25 0.25]);
+% xlabel("Latitude");
+y3 = ylabel("E4      ");
+y3.FontSize = 15;
+y3.FontWeight = "bold";
+y3.Rotation = 0;
+% t3 = title("MEPED 0\circ telescope E3 flux");
+% t3.FontSize = 15;
+tightmap
+
+set(ax5,'ColorScale','log');
+crameri('devon'); % requires "crameri" colormap toolbox
+caxis([10 100000]);
+
+ax6 = nexttile;
+hold off
 % worldmap('World');
-% geoshow(coastlat, coastlon, "Color", "black");
-% hold on
-% % scatterm(m01.lat, m01.lon, 0.5, [0.5 0.5 0.5]); % ground track
-% scatterm(m01.lat, m01.lon, 5, m01.mep_ele_tel90_flux_e4);
-% % scatterm(m03.lat, m03.lon, 0.5, [0.5 0.5 0.5]); % ground track
-% scatterm(m03.lat, m03.lon, 5, m03.mep_ele_tel90_flux_e4);
-% % scatterm(n15.lat, n15.lon, 0.5, [0.5 0.5 0.5]); % ground track
-% scatterm(n15.lat, n15.lon, 5, n15.mep_ele_tel90_flux_e4);
-% % scatterm(n18.lat, n18.lon, 0.5, [0.5 0.5 0.5]); % ground track
-% scatterm(n18.lat, n18.lon, 5, n18.mep_ele_tel90_flux_e4);
-% % scatterm(n19.lat, n19.lon, 0.5, [0.5 0.5 0.5]); % ground track
-% scatterm(n19.lat, n19.lon, 5, n19.mep_ele_tel90_flux_e4);
-% % xlabel("Latitude");
-% % ylabel("Longitude");
-% t2 = title("MEPED 90\circ telescope E4 flux");
-% t2.FontSize = 15;
-% 
-% set(ax6,'ColorScale','log');
-% crameri('davos'); % requires "crameri" colormap toolbox
-% caxis([10 100000]);
+% setm(ax4, "MapProjection","pcarree");
+axesm("MapProjection","pcarree", "MapLatLimit",[-90 90], "MapLonLimit",[-180 180]);
+framem;
+gridm;
+% mlabel;
+% plabel;
+hold on
+% scatterm(m01.lat, m01.lon, 0.5, [0.5 0.5 0.5]); % ground track
+scatterm(m01.lat, m01.lon, 5, m01.mep_ele_tel90_flux_e4);
+% scatterm(m03.lat, m03.lon, 0.5, [0.5 0.5 0.5]); % ground track
+scatterm(m03.lat, m03.lon, 5, m03.mep_ele_tel90_flux_e4);
+% scatterm(n15.lat, n15.lon, 0.5, [0.5 0.5 0.5]); % ground track
+scatterm(n15.lat, n15.lon, 5, n15.mep_ele_tel90_flux_e4);
+% scatterm(n18.lat, n18.lon, 0.5, [0.5 0.5 0.5]); % ground track
+scatterm(n18.lat, n18.lon, 5, n18.mep_ele_tel90_flux_e4);
+% scatterm(n19.lat, n19.lon, 0.5, [0.5 0.5 0.5]); % ground track
+scatterm(n19.lat, n19.lon, 5, n19.mep_ele_tel90_flux_e4);
+geoshow(coastlat, coastlon, "Color", [1 0.25 0.25]);
+% xlabel("Latitude");
+% ylabel("Longitude");
+% t4 = title("MEPED 90\circ telescope E3 flux");
+% t4.FontSize = 15;
+tightmap
+
+set(ax6,'ColorScale','log');
+crameri('devon'); % requires "crameri" colormap toolbox
+caxis([10 100000]);
+
 
 cb = colorbar;
-cb.Layout.Tile = "south";
+cb.Layout.Tile = "east";
 cb.Label.String = "counts cm^{-2} sr^{-1} s^{-1}";
 cb.Label.FontSize = 15;
 cb.FontSize = 12;
 
+titlestr = sprintf("MEPED fluxes %d-%d-%d\nNOAA-15, -18, -19 and MetOp-01, -03", year, month, day);
+t = title(tl, titlestr);
+t.FontSize = 15;
+t.FontWeight = "bold";
 
 %% satellite orbit information
 
-% colormap
-colors = crameri('-buda', 5);
-colors = colors(2:end, :);
+%colormap
+% colors = crameri('-buda', 5);
+% colors = colors(2:end, :);
 
 figure(3)
+
+tiledlayout(2,1,"TileSpacing","compact","Padding","compact");
+ax1 = nexttile;
 hold off
 plot(datetime(m01.time,"ConvertFrom", "datenum"), m01.MLT, '.');
 hold on
@@ -321,26 +352,50 @@ ylabel("MLT (hour)")
 legend("MetOp-01", "MetOp-03", "NOAA-15", "NOAA-18", "NOAA-19")
 title("Magnetic local time (MLT) of POES satellites")
 
-figure(4)
+ax2 = nexttile;
 hold off
-axesm("MapProjection","pcarree", "MapLatLimit",[-90 90], "MapLonLimit",[-180 180]);
-framem;
-gridm;
-% mlabel;
-% plabel;
+plot(m01.lat, m01.MLT, '.');
 hold on
-scatterm(m01.lat, m01.lon, 5, m01.L_IGRF);
-scatterm(m03.lat, m03.lon, 5, m03.L_IGRF);
-scatterm(n15.lat, n15.lon, 5, n15.L_IGRF);
-scatterm(n18.lat, n18.lon, 5, n18.L_IGRF);
-scatterm(n19.lat, n19.lon, 5, n19.L_IGRF); 
-geoshow(coastlat, coastlon, "Color", "white");
-title("POES IGRF L-shell")
+plot(m03.lat, m03.MLT, '.');
+plot(n15.lat, n15.MLT, '.');
+plot(n18.lat, n18.MLT, '.');
+plot(n19.lat, n19.MLT, '.');
+xlim([-90 90])
+ylim([0 24])
+xlabel("latitude (\circ)")
+ylabel("MLT (hour)")
+legend("MetOp-01", "MetOp-03", "NOAA-15", "NOAA-18", "NOAA-19")
+% title("Magnetic local time (MLT) of POES satellites")
 
-crameri('batlow'); % requires "crameri" colormap toolbox
-caxis([1 20]);
+%% particle counts vs. L shell
 
-cb = colorbar;
-cb.Label.String = "L shell";
-cb.Label.FontSize = 15;
-cb.FontSize = 12;
+figure(4)
+% colormap
+colors = crameri('-lajolla', 5);
+colors = colors(2:end, :);
+
+tiledlayout(2,1,"TileSpacing","compact","Padding","compact");
+ax1 = nexttile;
+hold off
+semilogy(m03.L_IGRF, m03.mep_ele_tel0_flux_e2, '.');
+hold on
+semilogy(m03.L_IGRF, m03.mep_ele_tel0_flux_e3, '.');
+semilogy(m03.L_IGRF, m03.mep_ele_tel0_flux_e4, '.');
+ylim([1E2 1E6]);
+xlim([0 20]);
+colororder(ax1, colors);
+legend("E2", "E3", "E4");
+title("MEPED 0\circ telescope");
+
+ax2 = nexttile;
+hold off
+semilogy(m03.L_IGRF, m03.mep_ele_tel90_flux_e2, '.');
+hold on
+semilogy(m03.L_IGRF, m03.mep_ele_tel90_flux_e3, '.');
+semilogy(m03.L_IGRF, m03.mep_ele_tel90_flux_e4, '.');
+ylim([1E2 1E6]);
+xlim([0 20]);
+colororder(ax2, colors);
+legend("E2", "E3", "E4");
+title("MEPED 90\circ telescope");
+
