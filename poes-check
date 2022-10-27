@@ -1,0 +1,90 @@
+#!/usr/bin/env bash
+#
+# Checks whether POES data files have been updated.  If so, downloads 
+# new files, and checks whether E3 electron fluxes exceed a preset 
+# threshold.
+# 
+# TODO: disallow bad dates
+#       add older satellites for relevant date ranges
+# 	check remote file against current local version
+
+if [[ $# != 4 ]]
+then
+	echo "USAGE: ./poes-check yyyy mm dd sat"
+	echo "	specify date with 4-digit year, 2-digit month, and "
+	echo "	 2-digit day, and a satellite identifier."
+	echo "	possible satellite identifiers: n15, n18, n18, m01, m03, "
+	echo "	 noaa15, noaa18, noaa19, metop01, metop03."
+	echo "	saves file in ./data/"
+	exit 1
+fi
+
+SITE="https://satdat.ngdc.noaa.gov/sem/poes/data/processed/ngdc/uncorrected/full"
+
+if [[ $4 == n15 || $4 == noaa15 ]]
+then
+	POESPATH="noaa15"
+	POESFILE="n15"
+elif [[ $4 == n18 || $4 == noaa18 ]]
+then
+	POESPATH="noaa18"
+	POESFILE="n18"
+elif [[ $4 == n19 || $4 == noaa19 ]]
+then
+	POESPATH="noaa19"
+	POESFILE="n19"
+elif [[ $4 == m01 || $4 == metop01 ]]
+then
+	POESPATH="metop01"
+	POESFILE="m01"
+elif [[ $4 == m03 || $4 == metop03 ]]
+then
+	POESPATH="metop03"
+	POESFILE="m03"
+else
+	echo "$4 is not a valid satellite ID (must be n15, n18, n19, m01, or m03)"
+	exit 1
+fi
+
+FILENAME="poes_"$POESFILE"_"$1$2$3"_proc.nc"
+
+# get last modified time of remote file
+LASTMOD=$(curl -sI $SITE/$1/$POESPATH/$FILENAME | grep -i Last-Modified)
+
+LASTMOD_SUBSTR=$(echo $LASTMOD | cut -d ':' -f 2-4)
+LASTMOD_TIME_HR=$(date -d "${LASTMOD_SUBSTR}" '+%Y-%m-%d %T %z') # human-readable
+LASTMOD_TIME=$(date -d "${LASTMOD_SUBSTR}" '+%s') # %s: seconds since epoch
+
+echo "Remote last modified at: $LASTMOD_TIME_HR ; $LASTMOD_TIME s"
+
+# check last modified time of local file
+if [ ! -f "./data/$FILENAME" ]
+then
+	echo "No local version of file! Downloading now."
+	(cd ./data && curl -O $SITE/$1/$POESPATH/$FILENAME) # toddpc path
+#	(cd ~/poes/data && curl -O $SITE/$1/$POESPATH/$FILENAME) # flashlight path
+	matlab -nodesktop -batch "checkpoes('$1','$2','$3','$POESFILE'); quit;" # toddpc path
+#	matlab-R2019b -nodesktop -batch "checkpoes('$1','$2','$3','$POESFILE'); quit;" # flashlight path
+	exit 0
+fi
+
+LOCAL_TIME=$(stat -c %Y ./data/$FILENAME) # %Y: seconds since epoch
+LOCAL_TIME_HR=$(stat -c %y ./data/$FILENAME) # %y: human-readable
+echo "Local last modified at: $LOCAL_TIME_HR ; $LOCAL_TIME s"
+
+if [[ $LOCAL_TIME < $LASTMOD_TIME ]]
+then
+	echo "New version of file available! Downloading now."
+	(cd ./data && curl -O $SITE/$1/$POESPATH/$FILENAME) # toddpc path
+#	(cd ~/poes/data && curl -O $SITE/$1/$POESPATH/$FILENAME) # flashlight path
+	echo "checking E3 electron fluxes"
+	matlab -nodesktop -batch "checkpoes('$1','$2','$3','$POESFILE'); quit;" # toddpc path
+# 	matlab-R2019b -nodesktop -batch "checkpoes('$1','$2','$3','$POESFILE'); quit;" # flashlight path
+
+elif [[ $LOCAL_TIME >  $LASTMOD_TIME ]]
+then
+	echo "Local up to date with remote."
+else
+	echo "Error! check dates!"
+	exit 1
+fi
