@@ -41,7 +41,7 @@ then
 	POESFILE="m03"
 else
 	echo "$4 is not a valid satellite ID (must be n15, n18, n19, m01, or m03)"
-	exit
+	exit 1
 fi
 
 FILENAME="poes_"$POESFILE"_"$1$2$3"_proc.nc"
@@ -50,7 +50,7 @@ FILENAME="poes_"$POESFILE"_"$1$2$3"_proc.nc"
 LASTMOD=$(curl -sI $SITE/$1/$POESPATH/$FILENAME | grep -i Last-Modified)
 
 LASTMOD_SUBSTR=$(echo $LASTMOD | cut -d ':' -f 2-4)
-LASTMOD_TIME_HR=$(date -d "${LASTMOD_SUBSTR}" '+%Y%m%d %T') # human-readable
+LASTMOD_TIME_HR=$(date -d "${LASTMOD_SUBSTR}" '+%Y-%m-%d %T %z') # human-readable
 LASTMOD_TIME=$(date -d "${LASTMOD_SUBSTR}" '+%s') # %s: seconds since epoch
 
 echo "Remote last modified at: $LASTMOD_TIME_HR ; $LASTMOD_TIME s"
@@ -61,7 +61,7 @@ then
 	echo "No local version of file! Downloading now."
 	(cd ../data && curl -O $SITE/$1/$POESPATH/$FILENAME) # toddpc path
 #	(cd ~/poes/data && curl -O $SITE/$1/$POESPATH/$FILENAME) # flashlight path
-	exit
+	exit 0
 fi
 
 LOCAL_TIME=$(stat -c %Y ../data/$FILENAME) # %Y: seconds since epoch
@@ -80,7 +80,7 @@ then
 	echo "Local up to date with remote."
 else
 	echo "Error! check dates!"
-	exit
+	exit 1
 fi
 
 # download file
