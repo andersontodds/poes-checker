@@ -58,6 +58,7 @@ elseif varargin{1} > 2011 && varargin{1} < 2100 % first input is year
         case {"m03", "metop03"}
             sat = "m03";
         otherwise
+            disp(varargin)
             error("Invalid satellite specifier! Options are n15, n18, n19, m01, m03.");
     end
     
@@ -71,6 +72,8 @@ end
 % strings
 
 if length(string(varargin{field_start_ind})) == 1   % fields listed individually
+    disp(["field start ind = ", field_start_ind])
+    disp(varargin)
     fieldnames = string(varargin(field_start_ind:end));
     fieldnames = fieldnames';
 else    % fields listed in single vector of strings

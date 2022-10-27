@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+#
+# Run poes-check with current date and a list of satellites as input
+
+# get current YYYY MM DD date in UTC
+YEAR=$(date -u +%Y)
+MONTH=$(date -u +%m)
+DAY=$(date -u +%d)
+
+# list satellites to get data from
+SATS=("n15" "n18" "n19" "m01" "m03")
+
+# call poes-check for every satellite at the current UTC date
+for sat in "${SATS[@]}"
+do
+	./poes-check "$YEAR" "$MONTH" "$DAY" "$sat"
+
+done

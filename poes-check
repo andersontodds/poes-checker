@@ -47,6 +47,7 @@ else
 fi
 
 FILENAME="poes_"$POESFILE"_"$1$2$3"_proc.nc"
+echo "Checking for updated $POESPATH data file..."
 
 # get last modified time of remote file
 LASTMOD=$(curl -sI $SITE/$1/$POESPATH/$FILENAME | grep -i Last-Modified)

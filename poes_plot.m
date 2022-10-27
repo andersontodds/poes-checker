@@ -369,6 +369,25 @@ legend("MetOp-01", "MetOp-03", "NOAA-15", "NOAA-18", "NOAA-19")
 
 %% particle counts vs. L shell
 
+
+recent = m03.time(end) - m03.time < 12/24;
+highL = m03.L_IGRF > 3;
+
+time_filtered = m03.time(recent & highL);
+
+e3_0_mm = movmean(m03.mep_ele_tel0_flux_e3(recent & highL), 1*60/2); % 1-minute moving mean of 2-second cadence data
+e3_90_mm = movmean(m03.mep_ele_tel90_flux_e3(recent & highL), 1*60/2); % 1-minute moving mean of 2-second cadence data
+
+flag = e3_0_mm > 1E3 & e3_90_mm > 1E5;
+
+flagtimes = time_filtered(flag);
+
+if any(flag) 
+    flagstr = sprintf("E3 flux exceeded at %s, start saving Sfiles!", datestr(flagtimes(1), "yyyymmdd HH:MM:SS"));
+    disp(flagstr)
+end
+
+
 figure(4)
 % colormap
 colors = crameri('-lajolla', 5);
@@ -381,6 +400,7 @@ semilogy(m03.L_IGRF, m03.mep_ele_tel0_flux_e2, '.');
 hold on
 semilogy(m03.L_IGRF, m03.mep_ele_tel0_flux_e3, '.');
 semilogy(m03.L_IGRF, m03.mep_ele_tel0_flux_e4, '.');
+semilogy(m03.L_IGRF(recent & highL), e3_0_mm, 'm*');
 ylim([1E2 1E6]);
 xlim([0 20]);
 colororder(ax1, colors);
@@ -393,6 +413,7 @@ semilogy(m03.L_IGRF, m03.mep_ele_tel90_flux_e2, '.');
 hold on
 semilogy(m03.L_IGRF, m03.mep_ele_tel90_flux_e3, '.');
 semilogy(m03.L_IGRF, m03.mep_ele_tel90_flux_e4, '.');
+semilogy(m03.L_IGRF(recent & highL), e3_90_mm, 'm*');
 ylim([1E2 1E6]);
 xlim([0 20]);
 colororder(ax2, colors);
