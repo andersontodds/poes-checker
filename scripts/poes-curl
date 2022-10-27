@@ -4,6 +4,7 @@
 # allow for varying satellite specifiers
 # TODO: disallow bad dates
 #       add older satellites for relevant date ranges
+# 	check remote file against current local version
 
 if [[ $# != 4 ]]
 then
@@ -45,4 +46,42 @@ fi
 
 FILENAME="poes_"$POESFILE"_"$1$2$3"_proc.nc"
 
-curl -O $SITE/$1/$POESPATH/$FILENAME
+# get last modified time of remote file
+LASTMOD=$(curl -sI $SITE/$1/$POESPATH/$FILENAME | grep -i Last-Modified)
+
+LASTMOD_SUBSTR=$(echo $LASTMOD | cut -d ':' -f 2-4)
+LASTMOD_TIME_HR=$(date -d "${LASTMOD_SUBSTR}" '+%Y%m%d %T') # human-readable
+LASTMOD_TIME=$(date -d "${LASTMOD_SUBSTR}" '+%s') # %s: seconds since epoch
+
+echo "Remote last modified at: $LASTMOD_TIME_HR ; $LASTMOD_TIME s"
+
+# check last modified time of local file
+if [ ! -f "../data/$FILENAME" ]
+then
+	echo "No local version of file! Downloading now."
+	(cd ../data && curl -O $SITE/$1/$POESPATH/$FILENAME) # toddpc path
+#	(cd ~/poes/data && curl -O $SITE/$1/$POESPATH/$FILENAME) # flashlight path
+	exit
+fi
+
+LOCAL_TIME=$(stat -c %Y ../data/$FILENAME) # %Y: seconds since epoch
+LOCAL_TIME_HR=$(stat -c %y ../data/$FILENAME) # %y: human-readable
+echo "Local last modified at: $LOCAL_TIME_HR ; $LOCAL_TIME s"
+
+if [[ $LOCAL_TIME < $LASTMOD_TIME ]]
+then
+	echo "New version of file available! Downloading now."
+	(cd ../data && curl -O $SITE/$1/$POESPATH/$FILENAME) # toddpc path
+#	(cd ~/poes/data && curl -O $SITE/$1/$POESPATH/$FILENAME) # flashlight path
+
+
+elif [[ $LOCAL_TIME >  $LASTMOD_TIME ]]
+then
+	echo "Local up to date with remote."
+else
+	echo "Error! check dates!"
+	exit
+fi
+
+# download file
+# echo "curl -O $SITE/$1/$POESPATH/$FILENAME"
