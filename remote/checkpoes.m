@@ -53,11 +53,22 @@ flag = e3_0_mm > 1E3 & e3_90_mm > 1E5;
 
 flagtimes = time_filtered(flag);
 
-if any(flag) 
-    flagstr = sprintf("E3 flux exceeded threshold at %s, start saving Sfiles!", datestr(flagtimes(1), "yyyymmdd HH:MM:SS"));
-    disp(flagstr)
-else
-    disp("E3 flux below threshold.")
+% open log file
+fid = fopen('~/poes/checkpoesLog.txt', 'a');
+if fid == -1
+    error('Cannot open log file.');
 end
+
+if any(flag) 
+    msg = sprintf("%s, %s: E3 flux exceeded threshold at %s, start saving Sfiles!", string(sat), datestr(now, 0), datestr(flagtimes(1), "yyyymmdd HH:MM:SS"));
+    disp(msg)
+    fprintf(fid, '%s: %s\n', datestr(now, 0), msg);
+else
+    msg = sprintf("%s, %s: E3 flux below threshold.",string(sat), datestr(now, 0));
+    disp(msg)
+    fprintf(fid, '%s: %s\n', datestr(now, 0), msg);
+end
+
+fclose(fid);
 
 end
