@@ -122,6 +122,7 @@ title("MEPED 90\circ telescope");
 load coastlines;
 
 figure(2)
+hold off
 tl = tiledlayout(3,2,"TileSpacing","tight","Padding","compact");
 ax1 = nexttile;
 hold off
@@ -143,7 +144,7 @@ scatterm(n15.lat, n15.lon, 5, n15.mep_ele_tel0_flux_e2);
 scatterm(n18.lat, n18.lon, 5, n18.mep_ele_tel0_flux_e2);
 % scatterm(n19.lat, n19.lon, 0.5, [0.5 0.5 0.5]); % ground track
 scatterm(n19.lat, n19.lon, 5, n19.mep_ele_tel0_flux_e2);
-geoshow(coastlat, coastlon, "Color", [1 0.25 0.25]);
+geoshow(coastlat, coastlon, "Color", [1 0.25 0.25], "LineWidth", 1.5);
 % xlabel("Latitude");
 y1 = ylabel("E2      ");
 y1.FontSize = 15;
@@ -177,7 +178,7 @@ scatterm(n15.lat, n15.lon, 5, n15.mep_ele_tel90_flux_e2);
 scatterm(n18.lat, n18.lon, 5, n18.mep_ele_tel90_flux_e2);
 % scatterm(n19.lat, n19.lon, 0.5, [0.5 0.5 0.5]); % ground track
 scatterm(n19.lat, n19.lon, 5, n19.mep_ele_tel90_flux_e2);
-geoshow(coastlat, coastlon, "Color", [1 0.25 0.25]);
+geoshow(coastlat, coastlon, "Color", [1 0.25 0.25], "LineWidth", 1.5);
 % xlabel("Latitude");
 % ylabel("Longitude");
 t2 = title("90\circ telescope");
@@ -208,7 +209,7 @@ scatterm(n15.lat, n15.lon, 5, n15.mep_ele_tel0_flux_e3);
 scatterm(n18.lat, n18.lon, 5, n18.mep_ele_tel0_flux_e3);
 % scatterm(n19.lat, n19.lon, 0.5, [0.5 0.5 0.5]); % ground track
 scatterm(n19.lat, n19.lon, 5, n19.mep_ele_tel0_flux_e3);
-geoshow(coastlat, coastlon, "Color", [1 0.25 0.25]);
+geoshow(coastlat, coastlon, "Color", [1 0.25 0.25], "LineWidth", 1.5);
 % xlabel("Latitude");
 y3 = ylabel("E3      ");
 y3.FontSize = 15;
@@ -242,7 +243,7 @@ scatterm(n15.lat, n15.lon, 5, n15.mep_ele_tel90_flux_e3);
 scatterm(n18.lat, n18.lon, 5, n18.mep_ele_tel90_flux_e3);
 % scatterm(n19.lat, n19.lon, 0.5, [0.5 0.5 0.5]); % ground track
 scatterm(n19.lat, n19.lon, 5, n19.mep_ele_tel90_flux_e3);
-geoshow(coastlat, coastlon, "Color", [1 0.25 0.25]);
+geoshow(coastlat, coastlon, "Color", [1 0.25 0.25], "LineWidth", 1.5);
 % xlabel("Latitude");
 % ylabel("Longitude");
 % t4 = title("MEPED 90\circ telescope E3 flux");
@@ -273,7 +274,7 @@ scatterm(n15.lat, n15.lon, 5, n15.mep_ele_tel0_flux_e4);
 scatterm(n18.lat, n18.lon, 5, n18.mep_ele_tel0_flux_e4);
 % scatterm(n19.lat, n19.lon, 0.5, [0.5 0.5 0.5]); % ground track
 scatterm(n19.lat, n19.lon, 5, n19.mep_ele_tel0_flux_e4);
-geoshow(coastlat, coastlon, "Color", [1 0.25 0.25]);
+geoshow(coastlat, coastlon, "Color", [1 0.25 0.25], "LineWidth", 1.5);
 % xlabel("Latitude");
 y3 = ylabel("E4      ");
 y3.FontSize = 15;
@@ -307,7 +308,7 @@ scatterm(n15.lat, n15.lon, 5, n15.mep_ele_tel90_flux_e4);
 scatterm(n18.lat, n18.lon, 5, n18.mep_ele_tel90_flux_e4);
 % scatterm(n19.lat, n19.lon, 0.5, [0.5 0.5 0.5]); % ground track
 scatterm(n19.lat, n19.lon, 5, n19.mep_ele_tel90_flux_e4);
-geoshow(coastlat, coastlon, "Color", [1 0.25 0.25]);
+geoshow(coastlat, coastlon, "Color", [1 0.25 0.25], "LineWidth", 1.5);
 % xlabel("Latitude");
 % ylabel("Longitude");
 % t4 = title("MEPED 90\circ telescope E3 flux");
