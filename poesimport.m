@@ -55,11 +55,13 @@ elseif varargin{1} > 2011 && varargin{1} < 2100 % first input is year
             sat = "n19";
         case {"m01", "metop01"}
             sat = "m01";
+        case {"m02", "metop02"}
+            sat = "m02";    
         case {"m03", "metop03"}
             sat = "m03";
         otherwise
             disp(varargin)
-            error("Invalid satellite specifier! Options are n15, n18, n19, m01, m03.");
+            error("Invalid satellite specifier! Options are n15, n18, n19, m01, m02, m03.");
     end
     
     filename = sprintf("data/poes_%s_%04d%02d%02d_proc.nc", sat, year, month, day);

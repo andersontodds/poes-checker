@@ -23,9 +23,14 @@
 % n19_file = "data/poes_n19_20221018_proc.nc";
 % ncdisp(poesfile);
 
-year = 2019;
-month = 10;
-day = 25;
+% substorms from Bland et al 2022 (https://doi.org/10.3389/fspas.2022.978371)
+%   2019 10 25
+%   2018 12 10
+%   2018 06 18
+
+year = 2018;
+month = 06;
+day = 18;
 
 datafields = ["time"; "lat"; "lon"; "alt"; "geod_lat_foot"; "geod_lon_foot"; ...
     "L_IGRF"; "MLT"; ...
@@ -33,7 +38,7 @@ datafields = ["time"; "lat"; "lon"; "alt"; "geod_lat_foot"; "geod_lon_foot"; ...
     "mep_ele_tel90_flux_e2"; "mep_ele_tel90_flux_e3"; "mep_ele_tel90_flux_e4"];
 
 m01 = poesimport(year, month, day, "m01", datafields);
-m03 = poesimport(year, month, day, "m03", datafields);
+m03 = poesimport(year, month, day, "m03", datafields); % change to "m02" for 2018 and earlier
 n15 = poesimport(year, month, day, "n15", datafields);
 n18 = poesimport(year, month, day, "n18", datafields);
 n19 = poesimport(year, month, day, "n19", datafields);
