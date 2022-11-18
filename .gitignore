@@ -1,2 +1,5 @@
 # ignore all .asv files
 *.asv
+
+# ignore everything in data/
+data/*

@@ -49,6 +49,13 @@ time_filtered = satdat.time(recent & highL);
 e3_0_mm = movmean(satdat.mep_ele_tel0_flux_e3(recent & highL), 1*60/2); % 1-minute moving mean of 2-second cadence data
 e3_90_mm = movmean(satdat.mep_ele_tel90_flux_e3(recent & highL), 1*60/2); % 1-minute moving mean of 2-second cadence data
 
+[max_e3_0_mm, index_e3_0] = max(e3_0_mm, [], "omitnan");
+[max_e3_90_mm, index_e3_90] = max(e3_90_mm, [], "omitnan");
+maxtime_0 = time_filtered(index_e3_0);
+maxtime_90 = time_filtered(index_e3_90);
+timestr_max0 = datestr(maxtime_0, "HH:MM:SS");
+timestr_max90 = datestr(maxtime_90, "HH:MM:SS");
+
 flag = e3_0_mm > 1E3 & e3_90_mm > 1E5;
 
 flagtimes = time_filtered(flag);
@@ -64,7 +71,8 @@ if any(flag)
     disp(msg)
     fprintf(fid, '%s: %s\n', datestr(now, 0), msg);
 else
-    msg = sprintf("%s, %s: E3 flux below threshold.",string(sat), datestr(now, 0));
+    msg = sprintf("%s, %s: E3 flux below threshold.\nMaximum E3 flux: 0-degree: %0.1g at %s; 90-degree: %0.1g at %s", ...
+        string(sat), datestr(now, 0), max_e3_0_mm, timestr_max0, max_e3_90_mm, timestr_max90);
     disp(msg)
     fprintf(fid, '%s: %s\n', datestr(now, 0), msg);
 end
