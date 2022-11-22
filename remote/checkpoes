@@ -2,10 +2,28 @@
 #
 # Run poes-check with current date and a list of satellites as input
 
-# get current YYYY MM DD date in UTC
-YEAR=$(date -u +%Y)
-MONTH=$(date -u +%m)
-DAY=$(date -u +%d)
+# 
+if [[ $# = 3 ]]
+then
+	# get current YYYY MM DD date in UTC
+	YEAR=$1
+	MONTH=$2
+	DAY=$3
+elif [[ $# = 0 ]]
+then
+	# get current YYYY MM DD date in UTC
+	YEAR=$(date -u +%Y)
+	MONTH=$(date -u +%m)
+	DAY=$(date -u +%d)
+else
+	echo "USAGE: ./checkpoes [yyyy mm dd]"
+	echo "	specify date with 4-digit year, 2-digit month, and "
+	echo "	 2-digit day."
+	echo " 	If no date is specified, checkpoes uses the current "
+	echo "	date."
+	exit 1
+fi
+
 
 # list satellites to get data from
 SATS=("n15" "n18" "n19" "m01" "m03")
