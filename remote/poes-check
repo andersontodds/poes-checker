@@ -6,7 +6,6 @@
 # 
 # TODO: disallow bad dates
 #       add older satellites for relevant date ranges
-# 	check remote file against current local version
 
 if [[ $# != 4 ]]
 then
@@ -59,7 +58,7 @@ LASTMOD_TIME=$(date -d "${LASTMOD_SUBSTR}" '+%s') # %s: seconds since epoch
 echo "Remote last modified at: $LASTMOD_TIME_HR ; $LASTMOD_TIME s"
 
 # check last modified time of local file
-if [ ! -f "~/poes/data/$FILENAME" ]
+if [ ! -f ~/poes/data/$FILENAME ]
 then
 	echo "No local version of file! Downloading now."
 #	(cd ./data && curl -O $SITE/$1/$POESPATH/$FILENAME) # toddpc path

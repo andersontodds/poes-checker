@@ -17,10 +17,8 @@ then
 	DAY=$(date -u +%d)
 else
 	echo "USAGE: ./checkpoes [yyyy mm dd]"
-	echo "	specify date with 4-digit year, 2-digit month, and "
-	echo "	 2-digit day."
-	echo " 	If no date is specified, checkpoes uses the current "
-	echo "	date."
+	echo "	specify date with 4-digit year, 2-digit month, and 2-digit day."
+	echo " 	If no date is specified, checkpoes uses the current date."
 	exit 1
 fi
 
