@@ -28,9 +28,9 @@
 %   2018 12 10
 %   2018 06 18
 
-year = 2018;
-month = 06;
-day = 18;
+year = 2022;
+month = 11;
+day = 02;
 
 datafields = ["time"; "lat"; "lon"; "alt"; "geod_lat_foot"; "geod_lon_foot"; ...
     "L_IGRF"; "MLT"; ...
