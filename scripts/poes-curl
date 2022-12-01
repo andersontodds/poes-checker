@@ -59,7 +59,7 @@ echo "Remote last modified at: $LASTMOD_TIME_HR ; $LASTMOD_TIME s"
 if [ ! -f "../data/$FILENAME" ]
 then
 	echo "No local version of file! Downloading now."
-	(cd ../data && curl -O $SITE/$1/$POESPATH/$FILENAME) # toddpc path
+	(cd ./data && curl -O $SITE/$1/$POESPATH/$FILENAME) # toddpc path
 #	(cd ~/poes/data && curl -O $SITE/$1/$POESPATH/$FILENAME) # flashlight path
 	exit 0
 fi
@@ -71,7 +71,7 @@ echo "Local last modified at: $LOCAL_TIME_HR ; $LOCAL_TIME s"
 if [[ $LOCAL_TIME < $LASTMOD_TIME ]]
 then
 	echo "New version of file available! Downloading now."
-	(cd ../data && curl -O $SITE/$1/$POESPATH/$FILENAME) # toddpc path
+	(cd ./data && curl -O $SITE/$1/$POESPATH/$FILENAME) # toddpc path
 #	(cd ~/poes/data && curl -O $SITE/$1/$POESPATH/$FILENAME) # flashlight path
 
 
