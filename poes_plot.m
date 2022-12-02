@@ -189,7 +189,7 @@ title("E3 0-degree flux at different L shells, all satellites")
 % %% plot electron flux on map
 % load coastlines;
 % 
-% figure(2)
+% figure(3)
 % hold off
 % tl = tiledlayout(3,2,"TileSpacing","tight","Padding","compact");
 % ax1 = nexttile;
@@ -399,42 +399,42 @@ title("E3 0-degree flux at different L shells, all satellites")
 % t.FontSize = 15;
 % t.FontWeight = "bold";
 
-%% satellite orbit information
-
-%colormap
-% colors = crameri('-buda', 5);
-% colors = colors(2:end, :);
-
-figure(3)
-
-tiledlayout(2,1,"TileSpacing","compact","Padding","compact");
-ax1 = nexttile;
-hold off
-plot(datetime(m01.time,"ConvertFrom", "datenum"), m01.MLT, '.');
-hold on
-plot(datetime(m03.time,"ConvertFrom", "datenum"), m03.MLT, '.');
-plot(datetime(n15.time,"ConvertFrom", "datenum"), n15.MLT, '.');
-plot(datetime(n18.time,"ConvertFrom", "datenum"), n18.MLT, '.');
-plot(datetime(n19.time,"ConvertFrom", "datenum"), n19.MLT, '.');
-ylim([0 24])
-ylabel("MLT (hour)")
-legend("MetOp-01", "MetOp-03", "NOAA-15", "NOAA-18", "NOAA-19")
-title("Magnetic local time (MLT) of POES satellites")
-
-ax2 = nexttile;
-hold off
-plot(m01.lat, m01.MLT, '.');
-hold on
-plot(m03.lat, m03.MLT, '.');
-plot(n15.lat, n15.MLT, '.');
-plot(n18.lat, n18.MLT, '.');
-plot(n19.lat, n19.MLT, '.');
-xlim([-90 90])
-ylim([0 24])
-xlabel("latitude (\circ)")
-ylabel("MLT (hour)")
-legend("MetOp-01", "MetOp-03", "NOAA-15", "NOAA-18", "NOAA-19")
+% %% satellite orbit information
+% 
+% %colormap
+% % colors = crameri('-buda', 5);
+% % colors = colors(2:end, :);
+% 
+% figure(3)
+% 
+% tiledlayout(2,1,"TileSpacing","compact","Padding","compact");
+% ax1 = nexttile;
+% hold off
+% plot(datetime(m01.time,"ConvertFrom", "datenum"), m01.MLT, '.');
+% hold on
+% plot(datetime(m03.time,"ConvertFrom", "datenum"), m03.MLT, '.');
+% plot(datetime(n15.time,"ConvertFrom", "datenum"), n15.MLT, '.');
+% plot(datetime(n18.time,"ConvertFrom", "datenum"), n18.MLT, '.');
+% plot(datetime(n19.time,"ConvertFrom", "datenum"), n19.MLT, '.');
+% ylim([0 24])
+% ylabel("MLT (hour)")
+% legend("MetOp-01", "MetOp-03", "NOAA-15", "NOAA-18", "NOAA-19")
 % title("Magnetic local time (MLT) of POES satellites")
+% 
+% ax2 = nexttile;
+% hold off
+% plot(m01.lat, m01.MLT, '.');
+% hold on
+% plot(m03.lat, m03.MLT, '.');
+% plot(n15.lat, n15.MLT, '.');
+% plot(n18.lat, n18.MLT, '.');
+% plot(n19.lat, n19.MLT, '.');
+% xlim([-90 90])
+% ylim([0 24])
+% xlabel("latitude (\circ)")
+% ylabel("MLT (hour)")
+% legend("MetOp-01", "MetOp-03", "NOAA-15", "NOAA-18", "NOAA-19")
+% % title("Magnetic local time (MLT) of POES satellites")
 
 %% particle counts vs. L shell
 
