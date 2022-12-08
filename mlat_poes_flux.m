@@ -8,7 +8,7 @@
 % load POES data files
 year = 2022;
 month = 11;
-day = 07;
+day = 03;
 
 % for day = 1:28
 
