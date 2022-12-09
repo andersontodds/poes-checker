@@ -8,9 +8,9 @@
 % load POES data files
 year = 2022;
 month = 11;
-day = 03;
+% day = 03;
 
-% for day = 1:28
+% for day = 1:30
 
     % sat = "n19";
     
@@ -35,8 +35,16 @@ day = 03;
     poes.mep_ele_tel90_flux_e3 = [m01.mep_ele_tel90_flux_e3; m03.mep_ele_tel90_flux_e3; n15.mep_ele_tel90_flux_e3; n18.mep_ele_tel90_flux_e3; n19.mep_ele_tel90_flux_e3];
     poes.mep_ele_tel90_flux_e4 = [m01.mep_ele_tel90_flux_e4; m03.mep_ele_tel90_flux_e4; n15.mep_ele_tel90_flux_e4; n18.mep_ele_tel90_flux_e4; n19.mep_ele_tel90_flux_e4];
     
+    % save combined data file
+    poesfile = sprintf("data/poes_combined_%04g%02g%02g.mat", year, month, day);
+    save(poesfile, "poes");
+
     % define mlat bins
     mlatrange = 50:70;
+
+    % define time bins for averaging
+    timebin = linspace(datenum(year, month, day), datenum(year, month, day+1), 145);
+    timebin = timebin';
     
     colors = crameri('-lajolla', length(mlatrange)+2);
     colors = colors(2:end-1, :);
@@ -47,16 +55,25 @@ day = 03;
     % get the subset of POES time series made in each mlat bin
     for i = 1:length(mlatrange)
         in_bin = round(poes.mag_lat_foot) == mlatrange(i);
-    
+        %e3_0_in_mlat = poes.mep_ele_tel0_flux_e3(in_bin);
+
+        % average poes values in time bins
+%         e3_0_binavg = zeros(size(timebin));
+%         for j = 1:length(timebin)-1
+%             in_time = poes.time > timebin(j) & poes.time < timebin(j+1);
+%             e3_0_binavg(j) = mean(poes.mep_ele_tel0_flux_e3(in_bin & in_time), "omitnan");
+%         end
+
         semilogy(datetime(poes.time(in_bin), "ConvertFrom", "datenum"), poes.mep_ele_tel0_flux_e3(in_bin), '.', "Color", colors(i,:))
         hold on
+%         semilogy(datetime(timebin, "ConvertFrom", "datenum"), e3_0_binavg, "-", "Color", colors(i,:))
     end
     
     ylim([1E2 1E7])
     ylabel("electron flux (cm^{-2} sr^{-1} keV^{-1} s^{-1})")
     title("0-degree E3 electron flux at different magnetic latitudes, all satellites")
     
-    figname = sprintf("figures/poes_e3_0_mlat_%04g%02g%02g.jpg", year, month, day);
-    saveas(gcf, figname);
+%     figname = sprintf("figures/poes_e3_0_mlat_%04g%02g%02g.jpg", year, month, day);
+%     saveas(gcf, figname);
 
 % end
