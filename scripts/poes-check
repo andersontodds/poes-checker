@@ -19,7 +19,7 @@ then
 	exit 1
 fi
 
-SITE="https://satdat.ngdc.noaa.gov/sem/poes/data/processed/ngdc/uncorrected/full"
+SITE="https://ncei.noaa.gov/data/poes-metop-space-environment-monitor/access/l1b/v01r00"
 
 if [[ $4 == n15 || $4 == noaa15 ]]
 then
