@@ -29,6 +29,6 @@ SATS=("n15" "n18" "n19" "m01" "m03")
 # call poes-check for every satellite at the current UTC date
 for sat in "${SATS[@]}"
 do
-	scripts/poes-curl "$YEAR" "$MONTH" "$DAY" "$sat"
+	(cd scripts && ./poes-curl "$YEAR" "$MONTH" "$DAY" "$sat")
 
 done

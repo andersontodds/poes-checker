@@ -8,9 +8,9 @@
 % load POES data files
 year = 2022;
 month = 11;
-% day = 03;
+% day = 01;
 
-% for day = 1:30
+for day = 7
 
     % sat = "n19";
     
@@ -36,26 +36,29 @@ month = 11;
     poes.mep_ele_tel90_flux_e4 = [m01.mep_ele_tel90_flux_e4; m03.mep_ele_tel90_flux_e4; n15.mep_ele_tel90_flux_e4; n18.mep_ele_tel90_flux_e4; n19.mep_ele_tel90_flux_e4];
     
     % save combined data file
-    poesfile = sprintf("data/poes_combined_%04g%02g%02g.mat", year, month, day);
-    save(poesfile, "poes");
+%     poesfile = sprintf("data/poes_combined_%04g%02g%02g.mat", year, month, day);
+%     save(poesfile, "poes");
 
     % define mlat bins
-    mlatrange = 50:70;
+    mlatrange = [50 70];
+    mlat_bin_edges = mlatrange(1):mlat_bin_width:mlatrange(2); % grid-registered bins
+
 
     % define time bins for averaging
     timebin = linspace(datenum(year, month, day), datenum(year, month, day+1), 145);
     timebin = timebin';
-    
-    colors = crameri('-lajolla', length(mlatrange)+2);
-    colors = colors(2:end-1, :);
+
+    colors = crameri('-lajolla', length(mlat_bin_edges)+2);
+    colors = colors(2:end-2, :);
     
     figure(5)
     hold off
     
     % get the subset of POES time series made in each mlat bin
-    for i = 1:length(mlatrange)
-        in_bin = round(poes.mag_lat_foot) == mlatrange(i);
-        %e3_0_in_mlat = poes.mep_ele_tel0_flux_e3(in_bin);
+    for i = 1:length(mlat_bin_edges)-1
+%         in_bin = round(poes.mag_lat_foot) == mlatrange(i);
+        in_bin = poes.mag_lat_foot > mlat_bin_edges(i) & poes.mag_lat_foot < mlat_bin_edges(i+1);
+        e3_ratio = poes.mep_ele_tel0_flux_e3(in_bin)./poes.mep_ele_tel90_flux_e3(in_bin);
 
         % average poes values in time bins
 %         e3_0_binavg = zeros(size(timebin));
@@ -63,17 +66,22 @@ month = 11;
 %             in_time = poes.time > timebin(j) & poes.time < timebin(j+1);
 %             e3_0_binavg(j) = mean(poes.mep_ele_tel0_flux_e3(in_bin & in_time), "omitnan");
 %         end
-
-        semilogy(datetime(poes.time(in_bin), "ConvertFrom", "datenum"), poes.mep_ele_tel0_flux_e3(in_bin), '.', "Color", colors(i,:))
+        semilogy(datetime(poes.time(in_bin), "ConvertFrom", "datenum"), e3_ratio, '.', "Color", colors(i,:));
+%         semilogy(datetime(poes.time(in_bin), "ConvertFrom", "datenum"), poes.mep_ele_tel0_flux_e3(in_bin), '.', "Color", colors(i,:));
         hold on
 %         semilogy(datetime(timebin, "ConvertFrom", "datenum"), e3_0_binavg, "-", "Color", colors(i,:))
     end
     
-    ylim([1E2 1E7])
+%     ylim([1E2 1E7])
     ylabel("electron flux (cm^{-2} sr^{-1} keV^{-1} s^{-1})")
+    cb = colorbar("eastoutside");
+    cb.Colormap = colors;
+    caxis([mlatrange(1) mlatrange(end)]);
+    cb.Label.String = "magnetic latitude (\circ)";
+
     title("0-degree E3 electron flux at different magnetic latitudes, all satellites")
     
-%     figname = sprintf("figures/poes_e3_0_mlat_%04g%02g%02g.jpg", year, month, day);
+    figname = sprintf("figures/poes_e3_0_mlat_%04g%02g%02g.jpg", year, month, day);
 %     saveas(gcf, figname);
 
-% end
+end

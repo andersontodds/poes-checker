@@ -8,19 +8,22 @@ quiet_days = datetime(2022, 11, [6, 10, 12, 14, 15, 16, 17, 19, 21, 22, 23, 24])
 
 mlatrange = [50 70];
 mlat_bin_width = 1;
-mlat_bin_edges = mlatrange(1)-(mlat_bin_width/2):mlat_bin_width:mlatrange(2)+(mlat_bin_width/2);
+% mlat_bin_edges =
+% mlatrange(1)-(mlat_bin_width/2):mlat_bin_width:mlatrange(2)+(mlat_bin_width/2);
+% % cell-registered bins
+mlat_bin_edges = mlatrange(1):mlat_bin_width:mlatrange(2); % grid-registered bins
 
 colors = crameri('-lajolla', length(mlat_bin_edges)+2);
-colors = colors(2:end-1, :);
+colors = colors(2:end-2, :);
 
-year = 2022;
-month = 11;
+startdt = datetime(2022, 11, 01);
+enddt = datetime(2022, 12, 09);
 
 time = [];
 mlat = [];
 e3_0 = [];
-for day = 1:30
-    poesfile = sprintf("data/poes_combined_202211%02g.mat", day);
+for dayrange = startdt:enddt
+    poesfile = sprintf("data/poes_combined_%s.mat", datestr(dayrange, "yyyymmdd"));
     poes = importdata(poesfile);
     
     time = cat(1, time, poes.time);
@@ -47,16 +50,17 @@ for i = 1:length(mlat_bin_edges)-1
 %         semilogy(datetime(timebin, "ConvertFrom", "datenum"), e3_0_binavg, "-", "Color", colors(i,:))
 end
 
-semilogy([datetime(year, month, 1) datetime(year, month, 31)], [1E4 1E4], ":r", "LineWidth", 1.5);
+semilogy([startdt enddt], [1E4 1E4], ":r", "LineWidth", 1.5);
 % for q = 1:length(quiet_days)
 %     vline(quiet_days(q));
 % end
 
 h = gca;
 h.ColorOrder = colors;
+h.Colormap = colors;
 h.FontSize = 12;
 ylim([1E2 1E7])
-xlim([datetime(year, month, 1), datetime(year, month, 31)])
+xlim([startdt, enddt])
 y = ylabel("electron flux (cm^{-2} sr^{-1} keV^{-1} s^{-1})");
 y.FontSize = 12;
 t = title("0-degree E3 electron flux at different magnetic latitudes, all satellites");
@@ -65,7 +69,9 @@ t.FontSize = 15;
 cb = colorbar('eastoutside');
 cb.Label.String = "magnetic latitude (\circ)";
 tickspace = 5;
-cb.Ticks = ((1:tickspace:mlatrange(2)+1-mlatrange(1))-0.5)./(mlatrange(2)+1-mlatrange(1));
+% cb.Ticks =
+% ((1:tickspace:mlatrange(2)+1-mlatrange(1))-0.5)./(mlatrange(2)+1-mlatrange(1));
+cb.Ticks = ((mlatrange(1):tickspace:mlatrange(2))-mlatrange(1))./(mlatrange(2)-mlatrange(1));
 cb.TickLabels = mlatrange(1):tickspace:mlatrange(2);
 cb.Label.FontSize = 15;
 cb.FontSize = 12;

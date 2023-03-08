@@ -17,7 +17,7 @@ then
 	exit 1
 fi
 
-SITE="https://ncei.noaa.gov/data/poes-metop-space-environment-monitor/access/l1b/v01r00"
+SITE="https://www.ncei.noaa.gov/data/poes-metop-space-environment-monitor/access/l1b/v01r00"
 
 if [[ $4 == n15 || $4 == noaa15 ]]
 then
@@ -59,7 +59,7 @@ echo "Remote last modified at: $LASTMOD_TIME_HR ; $LASTMOD_TIME s"
 if [ ! -f "../data/$FILENAME" ]
 then
 	echo "No local version of file! Downloading now."
-	(cd ./data && curl -O $SITE/$1/$POESPATH/$FILENAME) # toddpc path
+	(cd ../data && curl -O $SITE/$1/$POESPATH/$FILENAME) # toddpc path
 #	(cd ~/poes/data && curl -O $SITE/$1/$POESPATH/$FILENAME) # flashlight path
 	exit 0
 fi
@@ -84,4 +84,4 @@ else
 fi
 
 # download file
-# echo "curl -O $SITE/$1/$POESPATH/$FILENAME"
+echo "curl -O $SITE/$1/$POESPATH/$FILENAME"
