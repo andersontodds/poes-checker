@@ -10,7 +10,7 @@ year = 2022;
 month = 11;
 % day = 01;
 
-for day = 1:30
+for day = 1%:30
 
     % sat = "n19";
     
@@ -37,9 +37,9 @@ for day = 1:30
     poes.mep_ele_tel90_flux_e3 = [m01.mep_ele_tel90_flux_e3; m03.mep_ele_tel90_flux_e3; n15.mep_ele_tel90_flux_e3; n18.mep_ele_tel90_flux_e3; n19.mep_ele_tel90_flux_e3];
     poes.mep_ele_tel90_flux_e4 = [m01.mep_ele_tel90_flux_e4; m03.mep_ele_tel90_flux_e4; n15.mep_ele_tel90_flux_e4; n18.mep_ele_tel90_flux_e4; n19.mep_ele_tel90_flux_e4];
     
-    % save combined data file
-    poesfile = sprintf("data/poes_combined_%04g%02g%02g.mat", year, month, day);
-    save(poesfile, "poes");
+%     % save combined data file
+%     poesfile = sprintf("data/poes_combined_%04g%02g%02g.mat", year, month, day);
+%     save(poesfile, "poes");
 
 %     % define mlat bins
 %     mlatrange = [50 70];
