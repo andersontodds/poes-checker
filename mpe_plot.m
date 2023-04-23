@@ -23,10 +23,12 @@ n15 = mpeimport(year, month, day, "n15", datafields);
 n18 = mpeimport(year, month, day, "n18", datafields);
 n19 = mpeimport(year, month, day, "n19", datafields);
 
+% mpe.time = [m01.time; m03.time; n15.time; n18.time; n19.time];
+
 %% plot BLC differential flux for each energy as a function of time
 
 
-ei = 12; % energy index: [1, 27]
+ei = 14; % energy index: [1, 27]
 
 % colormap
 colors = crameri('-lajolla', 5);
@@ -37,16 +39,21 @@ figure(1)
 tiledlayout(2,1,"TileSpacing","compact","Padding","compact");
 ax1 = nexttile;
 hold off
-semilogy(datetime(m03.time(m03.foflLat > 40),"ConvertFrom", "datenum"), m03.BLC_Flux(ei,m03.foflLat > 40), '.');
+scatter(datetime(m03.time(m03.lValue > 2),"ConvertFrom", "datenum"), m03.BLC_Flux(ei,m03.lValue > 2), 10, m03.lValue(m03.lValue > 2), "filled");
 hold on
-semilogy(datetime(m01.time(m01.foflLat > 40),"ConvertFrom", "datenum"), m01.BLC_Flux(ei,m01.foflLat > 40), '.');
-semilogy(datetime(n15.time(n15.foflLat > 40),"ConvertFrom", "datenum"), n15.BLC_Flux(ei,n15.foflLat > 40), '.');
-semilogy(datetime(n18.time(n18.foflLat > 40),"ConvertFrom", "datenum"), n18.BLC_Flux(ei,n18.foflLat > 40), '.');
-semilogy(datetime(n19.time(n19.foflLat > 40),"ConvertFrom", "datenum"), n19.BLC_Flux(ei,n19.foflLat > 40), '.');
+scatter(datetime(m01.time(m01.lValue > 2),"ConvertFrom", "datenum"), m01.BLC_Flux(ei,m01.lValue > 2), 10, m01.lValue(m01.lValue > 2), "filled");
+scatter(datetime(n15.time(n15.lValue > 2),"ConvertFrom", "datenum"), n15.BLC_Flux(ei,n15.lValue > 2), 10, n15.lValue(n15.lValue > 2), "filled");
+scatter(datetime(n18.time(n18.lValue > 2),"ConvertFrom", "datenum"), n18.BLC_Flux(ei,n18.lValue > 2), 10, n18.lValue(n18.lValue > 2), "filled");
+scatter(datetime(n19.time(n19.lValue > 2),"ConvertFrom", "datenum"), n19.BLC_Flux(ei,n19.lValue > 2), 10, n19.lValue(n19.lValue > 2), "filled");
+set(gca, 'yscale', 'log');
 ylim([1E-5 1E5]);
-colororder(ax1, colors);
-% legend("E2", "E3", "E4");
-title("MPE BLC Flux");
+% colororder(ax1, colors);
+c = colorbar(ax1, "eastoutside");
+c.Label.String = "satellite L value";
+caxis([2 7])
+crameri('-lajolla');
+titlestr = sprintf("MPE BLC Flux, %0.5g keV electrons", m01.energy(ei));
+title(titlestr);
 
 ax2 = nexttile;
 hold off
@@ -70,3 +77,4 @@ xlim([0 20]);
 colororder(colors);
 % legend("E2", "E3", "E4");
 title("MPE BLC Flux");
+

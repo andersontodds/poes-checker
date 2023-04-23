@@ -1,5 +1,7 @@
 function out = mpeimport(varargin)
 % Import specified data from MPE NetCDF files.
+%
+% TODO: allow multiple sats; either vector of satID strings, or "all".
 % 
 % INPUTS: a MPE data file must be specified with either an exact filename,
 % or date and satellite identifier.  An example filename is:
